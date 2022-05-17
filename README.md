@@ -29,4 +29,16 @@ this,will,be,joined,by,commas
 
 ## Installation
 
-Build the `joinby.cpp` file using any compiler with c++11. 
+Build the `joinby.cpp` file using any compiler with c++17. 
+
+For MacOS with `clang++`, this command may work:
+
+```bash
+clang++ -std=c++17 -stdlib=libc++ -Wall -pedantic joinby.cpp -o joinby
+```
+
+Then copy the bin to `/usr/local/bin`
+
+```bash
+mv joinby /usr/local/bin
+```
