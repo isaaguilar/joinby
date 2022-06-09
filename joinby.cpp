@@ -3,7 +3,13 @@
 #include <iostream>
 
 int main(int argc, char * argv[]){
-    char * joiner = argv[1]; // only a single char is accepted
+    char const* joiner = argv[1]; // accepts any char*
+
+    int len_of_joiner;
+    for (int i = 0; joiner[i] != 0; ++i) {
+        ++len_of_joiner;
+    }
+
     std::vector<char> items;
 
     if (argc < 3) {
@@ -12,12 +18,16 @@ int main(int argc, char * argv[]){
         while (std::getline(std::cin,pipeInput)) {
             for (int i = 0; i < pipeInput.size(); ++i) {
                 if (std::isspace(pipeInput[i])) {
-                    items.push_back(*joiner);
+                    for (int j = 0; j < len_of_joiner; ++j) {
+                        items.push_back(joiner[j]);
+                    }
                 } else {
                     items.push_back(pipeInput[i]);
                 }
             }
-            items.push_back(*joiner);
+            for (int j = 0; j < len_of_joiner; ++j) {
+                items.push_back(joiner[j]);
+            }
         }
     } else {
         // At 3+ arguments, the command includes more than just a joiner and
@@ -27,10 +37,17 @@ int main(int argc, char * argv[]){
             for (int j = 0; strptr[j] > 0; ++j) {
                 items.push_back(strptr[j]);
             }
-            items.push_back(*joiner);
+            for (int j = 0; j < len_of_joiner; ++j) {
+                items.push_back(joiner[j]);
+            }
         }
     }
-    items.pop_back(); // always ends in the joiner
+
+    // always ends in the joiner which must be removed
+    for (int i = 0; i < len_of_joiner; ++i) {
+        items.pop_back();
+    }
+
     for (char i: items) std::cout << i;
     std::cout << std::endl;
     return 0;
